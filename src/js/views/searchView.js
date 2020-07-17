@@ -92,7 +92,6 @@ const renderButtons = (page, numResults, resPerPage) => {
     if (page === 1 && pages > 1) {
         //Button go to next page
         button = createButton(page, 'next')
-        console.log(button);
     } else if (page < pages) {
         button = `${createButton(page, 'prev') }
                   ${createButton(page, 'next')}
@@ -120,4 +119,11 @@ export const renderResults = (recipes, page = 1, resPerPage = 10) => {
     // RENDER PAGINATION BUTTONS
 
     renderButtons(page, recipes.length, resPerPage);
+}
+
+
+export const highlightSelected = id => {
+    const resultsArr = Array.from(document.querySelectorAll('.results__link'));
+    resultsArr.forEach(el => el.classList.remove('results__link--active'))
+    document.querySelector(`a[href*="${id}"]`).classList.add('results__link--active');
 }
