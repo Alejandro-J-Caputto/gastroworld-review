@@ -8,6 +8,11 @@ const {
     CleanWebpackPlugin
 } = require('clean-webpack-plugin');
 module.exports = {
+    // entry: './src/index.js',
+    // output: {
+    //     path: path.resolve(__dirname, 'dist'),
+    //     filename: 'bundle.[contentHash].js'
+    // },
     mode: 'production',
     optimization: {
         minimizer: [new optimizeCssAssetsPlugin()]
@@ -65,7 +70,7 @@ module.exports = {
             filename: './index.html'
         }),
         new MiniCssExtractPlugin({
-            filename: 'css/[name].[contentHash].css',
+            filename: '[name].[contentHash].css',
             ignoreOrder: false
         }),
         new CopyPlugin({

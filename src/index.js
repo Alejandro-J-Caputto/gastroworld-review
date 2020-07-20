@@ -3,9 +3,12 @@ import * as comun from './js/common/selector-html';
 import Search from './js/models/Search';
 import Recipe from './js/models/Recipe';
 import List from './js/models/list'
+import Likes from './js/models/Likes'
 import * as searchView from './js/views/searchView'
 import * as recipeView from './js/views/recipeView'
 import * as listView from './js/views/listView'
+import * as likesView from './js/views/likesView'
+
 
 /* GLOBAL STATE
 Search Object
@@ -107,7 +110,9 @@ const controlRecipe = async () => {
             comun.clearLoader();
 
             console.log(state.recipe);
-            recipeView.renderRecipe(state.recipe)
+            recipeView.renderRecipe(state.recipe,
+                // state.likes.isLiked(id)
+            )
 
 
 
@@ -166,6 +171,48 @@ const controlList = () => {
 
 
 
+////////////////////////////////////////////////////////////////////////////////////////////////
+//CONTROLADOR LIKE
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+const controlLike = () => {
+    if (!state.likes) state.likes = new Likes();
+
+    const currentID = state.recipe.id;
+    //user has not yet liked current recipe
+    if (!state.likes.isLiked(currentID)) {
+        // add like to the state
+        const newLike = state.likes.addLike(
+            currentID,
+            state.recipe.title,
+            state.recipe.author,
+            state.recipe.img
+        )
+
+        //toggle the like button
+
+        likesView.toggleLikeButton(true)
+
+        // add like to the ui
+        likesView.renderLike(newLike)
+        console.log(state.likes);
+        // User has liked the current recipe
+
+    } else {
+        console.log(currentID);
+        // remove like to the state
+        state.likes.deleteLike(currentID);
+        console.log(state.likes);
+        //remove the like button
+        likesView.toggleLikeButton(false)
+        // remove like to the ui
+        likesView.deleteLike(currentID)
+
+    }
+    likesView.toggleLikeMenu(state.likes.getNumLikes())
+
+};
+
 
 
 
@@ -195,7 +242,23 @@ comun.elementsSelectors.recipe.addEventListener('click', e => {
     } else if (e.target.matches('.recipe__btn--add, .recipe__btn--add *')) {
         // Add ingredients to shopping list
         controlList();
+    } else if (e.target.matches('.recipe__love, .recipe__love *')) {
+
+        //Like controller
+        controlLike()
     }
+
+})
+
+//RESTORE LIKED RECIPES ON PAGE LOAD
+
+window.addEventListener('load', () => {
+    state.likes = new Likes();
+    state.likes.renderDataStorage();
+    likesView.toggleLikeMenu(state.likes.getNumLikes());
+
+    state.likes.likes.forEach(like => likesView.renderLike(like))
+
 
 })
 

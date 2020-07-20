@@ -12,7 +12,7 @@ export const renderItem = item => {
             <p class="shopping__description">${item.ingredient}</p>
             <button class="shopping__delete btn-tiny">
                 <svg>
-                    <use href="../assets/img/icons.svg#icon-circle-with-cross"></use>
+                    <use href="./assets/img/icons.svg#icon-circle-with-cross"></use>
                 </svg>
             </button>
         </li>

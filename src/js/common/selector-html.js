@@ -6,6 +6,8 @@ export const elementsSelectors = {
     searchResPages: document.querySelector('.results__pages'),
     recipe: document.querySelector('.recipe'),
     shopping: document.querySelector('.shopping__list'),
+    likesMenu: document.querySelector('.likes__field'),
+    likesLists: document.querySelector('.likes__list')
 
 };
 
